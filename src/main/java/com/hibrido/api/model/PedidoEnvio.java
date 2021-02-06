@@ -4,7 +4,7 @@ import java.util.List;
 
 public class PedidoEnvio {
 	private String cpfCnpjCliente;
-	private String cpfCpnjRepresentante;
+	private String cpfCnpjRepresentante;
 	private Endereco enderecoEntrega;
 	private String numero;
 	
@@ -17,11 +17,11 @@ public class PedidoEnvio {
 		// TODO Auto-generated constructor stub
 	}
 	
-	public PedidoEnvio(String cpfCnpjCliente, String cpfCpnjRepresentante, Endereco enderecoEntrega, String numero,
+	public PedidoEnvio(String cpfCnpjCliente, String cpfCnpjRepresentante, Endereco enderecoEntrega, String numero,
 			List<Produto> produtos, Double valorDesconto, Double valorFrete, Double valorTotal) {
 		super();
 		this.cpfCnpjCliente = cpfCnpjCliente;
-		this.cpfCpnjRepresentante = cpfCpnjRepresentante;
+		this.cpfCnpjRepresentante = cpfCnpjRepresentante;
 		this.enderecoEntrega = enderecoEntrega;
 		this.numero = numero;
 		this.produtos = produtos;
@@ -36,12 +36,16 @@ public class PedidoEnvio {
 	public void setCpfCnpjCliente(String cpfCnpjCliente) {
 		this.cpfCnpjCliente = cpfCnpjCliente;
 	}
-	public String getCpfCpnjRepresentante() {
-		return cpfCpnjRepresentante;
+	
+	
+	public String getCpfCnpjRepresentante() {
+		return cpfCnpjRepresentante;
 	}
-	public void setCpfCpnjRepresentante(String cpfCpnjRepresentante) {
-		this.cpfCpnjRepresentante = cpfCpnjRepresentante;
+
+	public void setCpfCnpjRepresentante(String cpfCnpjRepresentante) {
+		this.cpfCnpjRepresentante = cpfCnpjRepresentante;
 	}
+
 	public Endereco getEnderecoEntrega() {
 		return enderecoEntrega;
 	}
@@ -81,7 +85,7 @@ public class PedidoEnvio {
 
 	@Override
 	public String toString() {
-		return "PedidoEnvio [cpfCnpjCliente=" + cpfCnpjCliente + ", cpfCpnjRepresentante=" + cpfCpnjRepresentante
+		return "PedidoEnvio [cpfCnpjCliente=" + cpfCnpjCliente + ", cpfCpnjRepresentante=" + cpfCnpjRepresentante
 				+ ", enderecoEntrega=" + enderecoEntrega + ", numero=" + numero + ", produtos=" + produtos
 				+ ", valorDesconto=" + valorDesconto + ", valorFrete=" + valorFrete + ", valorTotal=" + valorTotal
 				+ "]";
