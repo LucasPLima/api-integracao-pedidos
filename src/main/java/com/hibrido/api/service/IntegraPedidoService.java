@@ -1,6 +1,7 @@
 package com.hibrido.api.service;
 
 import java.time.LocalDateTime;
+
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -10,14 +11,19 @@ import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatus.Series;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.JsonMappingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hibrido.api.exception.PeriodoInvalidoException;
-import com.hibrido.api.exceptionhandler.RestTemplateResponseErrorHandler;
+import com.hibrido.api.model.ErroIntegracaoDestino;
 import com.hibrido.api.model.PedidoEnvio;
 import com.hibrido.api.model.PedidoRecebido;
 import com.hibrido.api.model.Produto;
@@ -30,9 +36,8 @@ public class IntegraPedidoService {
 	private final RestTemplate restTemplate;
 	
 	public IntegraPedidoService(RestTemplateBuilder restTemplateBuilder) {
-		this.restTemplate = restTemplateBuilder.
-							errorHandler(new RestTemplateResponseErrorHandler())
-							.build();
+		this.restTemplate = restTemplateBuilder.build();
+							
 	}
 	
 	public List<PedidoEnvio> executaIntegracao(LocalDateTime dataInicio, LocalDateTime dataFinal) {
@@ -60,10 +65,23 @@ public class IntegraPedidoService {
 		headers.setAccept(Collections.singletonList(MediaType.APPLICATION_JSON));
 		
 		for (PedidoEnvio pedido : pedidosEnvio) {
-			HttpEntity<PedidoEnvio> pedidoEntity = new HttpEntity<>(pedido, headers);
-			ResponseEntity<Void> response = this.restTemplate.postForEntity(URL_DESTINO, pedidoEntity, Void.class);
-			if (response.getStatusCode() == HttpStatus.CREATED) {
-				System.out.printf("O pedido %s deu bom.", pedido.getNumero());
+			try {
+				HttpEntity<PedidoEnvio> pedidoEntity = new HttpEntity<>(pedido, headers);
+				ResponseEntity<ErroIntegracaoDestino> response = this.restTemplate.postForEntity(URL_DESTINO, pedidoEntity, ErroIntegracaoDestino.class);
+				if(response.getStatusCode() == HttpStatus.CREATED) {
+					
+				}
+			}catch (HttpClientErrorException ex) {
+				try {
+				  ObjectMapper objectMapper = new ObjectMapper();
+				  String jsonResponse = ex.getResponseBodyAsString();
+				  ErroIntegracaoDestino erro = objectMapper.readValue(jsonResponse, ErroIntegracaoDestino.class);
+				  System.out.println(erro.getDescricao());
+				} catch (JsonProcessingException e) {
+					e.printStackTrace();
+				}
+				
+				
 			}
 		}
 	}
@@ -78,8 +96,8 @@ public class IntegraPedidoService {
 		Double valorTotalItems = pedidoRecebido.getItens().stream().map(item-> item.getValorTotal())
 				                                                    .collect(Collectors.summingDouble(Double::doubleValue));
 		
-		Double valorTotalPedido = valorTotalItems + pedidoRecebido.getValorFrete() - pedidoRecebido.getValorDesconto();
-		
+		//Double valorTotalPedido = valorTotalItems + pedidoRecebido.getValorFrete() - pedidoRecebido.getValorDesconto();
+		Double valorTotalPedido=0.0;
 		PedidoEnvio pedidoEnvio = new PedidoEnvio(pedidoRecebido.getCliente().getCpfCnpj(),
 												  pedidoRecebido.getRepresentante().getCpfCnpj(),
 												  pedidoRecebido.getCliente().getEndereco(),

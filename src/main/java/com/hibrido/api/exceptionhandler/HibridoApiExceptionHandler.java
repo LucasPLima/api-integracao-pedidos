@@ -8,7 +8,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.ResourceAccessException;
 import org.springframework.web.context.request.WebRequest;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
@@ -34,13 +33,6 @@ public class HibridoApiExceptionHandler extends ResponseEntityExceptionHandler{
 		return handleExceptionInternal(ex, erros, new HttpHeaders(), HttpStatus.INTERNAL_SERVER_ERROR, request);
 	}
 	
-	@ExceptionHandler({HttpClientErrorException.class})
-	public ResponseEntity<Object> handleHttpClientErrorException(HttpClientErrorException ex, WebRequest request) {
-		String title = "Erro na integração";
-		String description = ex.getResponseBodyAsString();
-		List<Error> erros = Arrays.asList(new Error(title, description));
-		return handleExceptionInternal(ex, erros, new HttpHeaders(), ex.getStatusCode(), request);
-	}
 	
 	public static class Error{
 		private String title;
