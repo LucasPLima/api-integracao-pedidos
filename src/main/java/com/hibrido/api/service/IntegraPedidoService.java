@@ -17,6 +17,7 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import com.hibrido.api.exception.PeriodoInvalidoException;
+import com.hibrido.api.exceptionhandler.RestTemplateResponseErrorHandler;
 import com.hibrido.api.model.PedidoEnvio;
 import com.hibrido.api.model.PedidoRecebido;
 import com.hibrido.api.model.Produto;
@@ -29,7 +30,9 @@ public class IntegraPedidoService {
 	private final RestTemplate restTemplate;
 	
 	public IntegraPedidoService(RestTemplateBuilder restTemplateBuilder) {
-		this.restTemplate = restTemplateBuilder.build();
+		this.restTemplate = restTemplateBuilder.
+							errorHandler(new RestTemplateResponseErrorHandler())
+							.build();
 	}
 	
 	public List<PedidoEnvio> executaIntegracao(LocalDateTime dataInicio, LocalDateTime dataFinal) {
@@ -58,7 +61,6 @@ public class IntegraPedidoService {
 		
 		for (PedidoEnvio pedido : pedidosEnvio) {
 			HttpEntity<PedidoEnvio> pedidoEntity = new HttpEntity<>(pedido, headers);
-			System.out.println(pedidoEntity.getBody().toString());
 			ResponseEntity<Void> response = this.restTemplate.postForEntity(URL_DESTINO, pedidoEntity, Void.class);
 			if (response.getStatusCode() == HttpStatus.CREATED) {
 				System.out.printf("O pedido %s deu bom.", pedido.getNumero());
