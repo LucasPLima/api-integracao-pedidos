@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import com.hibrido.api.exception.PeriodoInvalidoException;
 import com.hibrido.api.model.PedidoEnvio;
 import com.hibrido.api.model.PedidoRecebido;
 import com.hibrido.api.model.Produto;
@@ -32,6 +33,8 @@ public class IntegraPedidoService {
 	}
 	
 	public List<PedidoEnvio> executaIntegracao(LocalDateTime dataInicio, LocalDateTime dataFinal) {
+		validaPeriodoSolicitado(dataInicio, dataFinal);
+		
 		String urlOrigemCompleta = UriComponentsBuilder
 								   .fromUriString(URL_ORIGEM)
 								   .queryParam("data_inicial", dataInicio)
@@ -86,5 +89,15 @@ public class IntegraPedidoService {
 
 		return pedidoEnvio;
 		
+	}
+	
+	private void validaPeriodoSolicitado(LocalDateTime dataInicio, LocalDateTime dataFinal) {
+		if (dataInicio.isAfter(dataFinal)) {
+			throw new PeriodoInvalidoException("Data de início é maior que a data final.");
+		} else if (dataInicio.isAfter(LocalDateTime.now())) {
+			throw new PeriodoInvalidoException("Data de início é maior que a data atual.");
+		} else if (dataFinal.isAfter(LocalDateTime.now())) {
+			throw new PeriodoInvalidoException("Data final é maior que a data atual.");
+		}
 	}
 }
