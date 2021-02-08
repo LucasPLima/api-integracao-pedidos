@@ -33,11 +33,16 @@ Os recursos disponíveis são:
  
  **Formato da data: **yyyy-MM-ddTHH:mm**.
 
-A integração gera um JSON com um resumo do fluxo executado, informando:
-- Data da integração;
-- Hora da integração;
-- Quantidade de pedidos recebidos;
-- Quantidade de pedidos enviados;
-- Lista de pedidos recebidos (no formato de dados provenientes da origem);
-- Lista de pedidos enviados  (no formato de dados para envio ao destino);
-- Lista de pedidos com erro, informando a descrição do erro e os detalhes de algum pedido que não tenha atendido aos pré-requisitos do envio citados acima.
+## Informações adicionais
+
+- O cálculo do valor total do pedido foi feito com a seguinte fórmula:
+  **valor total de itens** + **valor de frete** - **valor de desconto**.
+
+- A integração gera um JSON com um resumo do fluxo executado, informando:
+	- Data da integração;
+	- Hora da integração;
+	- Quantidade de pedidos recebidos;
+	- Quantidade de pedidos enviados;
+	- Lista de pedidos recebidos (no formato de dados provenientes da origem);
+	- Lista de pedidos enviados  (no formato de dados para envio ao destino);
+	- Lista de pedidos com erro, informando a descrição do erro e os detalhes de algum pedido que não tenha atendido aos pré-requisitos do envio citados acima.
