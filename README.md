@@ -1,4 +1,6 @@
-# API de integração de pedidos - (Híbrido)
+# Híbrido-API - Integração de pedidos
+
+## Descrição do teste
 
 Este teste visa simular um pequeno cenário de integração entre sistemas.
 O teste consiste em buscar informações de uma lista de pedidos de um webservice e enviá-los para outro webservice. 
@@ -9,4 +11,33 @@ A lista deverá ser transformada e cada pedido deve ser enviado para [Swagger UI
 
 > O webservice de destino possui algumas validações que precisam ser atendidas, como: valor total do pedido deve ser informado, os dados de CPF/CNPJ do cliente e representante são obrigatórios e cada pedido deve conter pelo menos um item.
 
+## Validações
 
+A API implementada para resolver o problema contém as seguintes **validações**:
+
+ - Validação de período informado;
+	 - Data de início não pode ser maior que a data final;
+	 - Ambas as datas não podem ser maiores que a data atual a qual está sendo feita a solicitação;
+- Validação de formato de período, informando qual campo está fora do padrão especificado; 
+
+Ao se obter um erro a API retorna um **JSON** informando a causa e os detalhes do erro.
+
+
+ ## Recursos
+O link para a realizar as requisições de teste é: https://hibrido-pedidos-api.herokuapp.com/.
+Os recursos disponíveis são:
+|Método| Endpoint | Parâmetros | Descrição| Exemplo|
+|--|--|--|--|--|
+|GET| /integra-pedido | dataInicio e dataFinal **| Realiza o fluxo de integração| https://hibrido-pedidos-api.herokuapp.com/integra-pedido?dataInicio=2010-10-12T00:00&dataFinal=2021-02-07T00:00 |
+|GET|/integra-pedido/ping|N/A|Verifica se o serviço está funcionando|https://hibrido-pedidos-api.herokuapp.com/integra-pedido/ping|
+ 
+ **Formato da data: **yyyy-MM-ddTHH:mm**.
+
+A integração gera um JSON com um resumo do fluxo executado, informando:
+- Data da integração;
+- Hora da integração;
+- Quantidade de pedidos recebidos;
+- Quantidade de pedidos enviados;
+- Lista de pedidos recebidos (no formato de dados provenientes da origem);
+- Lista de pedidos enviados  (no formato de dados para envio ao destino);
+- Lista de pedidos com erro, informando a descrição do erro e os detalhes de algum pedido que não tenha atendido aos pré-requisitos do envio citados acima.
