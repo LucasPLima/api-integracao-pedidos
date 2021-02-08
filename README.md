@@ -30,6 +30,8 @@ Os recursos disponíveis são:
 |--|--|--|--|--|
 |GET| /integra-pedido | dataInicio e dataFinal **| Realiza o fluxo de integração| https://hibrido-pedidos-api.herokuapp.com/integra-pedido?dataInicio=2010-10-12T00:00&dataFinal=2021-02-07T00:00 |
 |GET|/integra-pedido/ping|N/A|Verifica se o serviço está funcionando|https://hibrido-pedidos-api.herokuapp.com/integra-pedido/ping|
+|GET|integra-pedido/historico|N/A|Traz o registro das últimas integrações (no máximo 5)|https://hibrido-pedidos-api.herokuapp.com/integra-pedido/historico|
+|GET|integra-pedido/historico/{id}|Identificação da integração|Traz o registro das integração especificada | https://hibrido-pedidos-api.herokuapp.com/integra-pedido/historico/1|
  
  **Formato da data: **yyyy-MM-ddTHH:mm**.
 
@@ -46,3 +48,4 @@ Os recursos disponíveis são:
 	- Lista de pedidos recebidos (no formato de dados provenientes da origem);
 	- Lista de pedidos enviados  (no formato de dados para envio ao destino);
 	- Lista de pedidos com erro, informando a descrição do erro e os detalhes de algum pedido que não tenha atendido aos pré-requisitos do envio citados acima.
+- O histórico de integrações só contém o registro de até 5 solicitações, devido a utilização de um banco em memória (H2). 

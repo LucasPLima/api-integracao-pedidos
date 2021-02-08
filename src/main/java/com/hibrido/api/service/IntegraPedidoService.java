@@ -34,10 +34,11 @@ public class IntegraPedidoService {
 	private final String URL_DESTINO = "http://destino.demacode.com.br:8282/v1/pedido";
 	
 	private final RestTemplate restTemplate;
+	private HistoricoIntegracaoService historicoService;
 	
-	public IntegraPedidoService(RestTemplateBuilder restTemplateBuilder) {
+	public IntegraPedidoService(RestTemplateBuilder restTemplateBuilder, HistoricoIntegracaoService historicoService) {
 		this.restTemplate = restTemplateBuilder.build();
-							
+		this.historicoService = historicoService;
 	}
 	
 	public ResumoIntegracao executaIntegracao(LocalDateTime dataInicio, LocalDateTime dataFinal) {
@@ -56,6 +57,8 @@ public class IntegraPedidoService {
 		
 		ResumoIntegracao resumoIntegracao = enviarPedidos(pedidosEnvio);
 		resumoIntegracao.setPedidosRecebidos(pedidosRecebidos);
+		
+		historicoService.registrarSolicitacao(resumoIntegracao);
 		return resumoIntegracao;
 				
 	}

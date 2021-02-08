@@ -1,12 +1,15 @@
 package com.hibrido.api.model;
 
 import java.time.LocalDate;
+
 import java.time.LocalTime;
 import java.util.List;
+
 
 public class ResumoIntegracao {
 	private LocalDate dtIntegracao;
 	private LocalTime hrIntegracao;
+	
 	private Integer qtdePedidosRecebidos;
 	private Integer qtdePedidosEnviados;
 	private List<PedidoRecebido> pedidosRecebidos;
