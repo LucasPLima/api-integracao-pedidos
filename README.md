@@ -1,4 +1,4 @@
-# Híbrido-API - Integração de pedidos
+# REST API - Integração de pedidos
 
 ## Descrição do teste
 
