@@ -48,4 +48,6 @@ Os recursos disponíveis são:
 	- Lista de pedidos recebidos (no formato de dados provenientes da origem);
 	- Lista de pedidos enviados  (no formato de dados para envio ao destino);
 	- Lista de pedidos com erro, informando a descrição do erro e os detalhes de algum pedido que não tenha atendido aos pré-requisitos do envio citados acima.
-- O histórico de integrações só contém o registro de até 5 solicitações, devido a utilização de um banco em memória (H2). 
+- A integração acontece periodicamente a cada 5 minutos. A funcionalidade do histórico foi adicionada para que fossem verificados os registros das integrações feitas automaticamente.
+
+- O histórico de integrações só contém o registro de até 5 solicitações, devido a utilização de um banco em memória (H2).
